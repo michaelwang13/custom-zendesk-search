@@ -34,18 +34,6 @@ export const customFindAnswers = ({
     })
     .then(({ hits }) =>
       hits.map((hit) => ({
-        url: ((): string => {
-          switch (sourceId) {
-            case 'help center':
-              return `/${hit.locale ? hit.locale.locale : ''}/articles/${
-                hit.id
-              }`;
-            case 'academy':
-              return `/training/${hit.id}`;
-            default:
-              return '';
-          }
-        })(),
         ...hit,
         sourceId,
       }))

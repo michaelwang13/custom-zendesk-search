@@ -141,7 +141,7 @@ export const hitTemplate = (
           From:
         </span>
         <span className={stl`p-1`}>
-          {item.topic ? item.topic.title : item.title}
+          {item.title}
         </span>
       </p>
     </a>

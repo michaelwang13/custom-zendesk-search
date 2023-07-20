@@ -22,13 +22,10 @@ import {
   FooterTemplate,
 } from './templates';
 import type {
-  AcademyHit,
-  DiscourseHit,
   DocHit,
   FederatedHits,
   HitWithAnswer,
-  SourceId,
-  ZendeskHit,
+  SourceId
 } from './types';
 import { getSortedHits, parse } from './utils';
 
@@ -82,56 +79,6 @@ export const startAutocomplete = (
 
   const sources = [
     {
-      sourceId: 'instantsearch_helpcenter',
-      getItems({ query, state }) {
-        const url = state.context.answerUrl as string;
-        const id = url ? url.split('/').pop() : '';
-
-        return getAlgoliaResults({
-          searchClient: SOURCES.find(
-            (source) => source.sourceId === 'help center'
-          ).client,
-          queries: [
-            {
-              indexName: SOURCES.find(
-                (source) => source.sourceId === 'help center'
-              ).indexName,
-              query,
-              params: {
-                hitsPerPage: 4,
-                distinct: true,
-                filters: id ? `NOT objectID:${id}` : '',
-              },
-            },
-          ],
-          transformResponse({ hits }) {
-            return hits[0].map((hit) => ({
-              ...hit,
-
-              url: hit.locale ? `/${hit.locale.locale}/articles/${hit.id}` : '',
-            }));
-          },
-        });
-      },
-      getItemUrl({ item }) {
-        return `${BASE_URLS['help center']}${item.url}`;
-      },
-      templates: {
-        header() {
-          return headerTemplate('help center');
-        },
-        item({ item, components }) {
-          return instantsearchTemplate<Hit<ZendeskHit> & { url: string }>({
-            item,
-            components,
-            highlightAttr: 'title',
-            snippetAttr: 'body_safe',
-            sourceId: 'help center',
-          });
-        },
-      },
-    } as AutocompleteSource<Hit<ZendeskHit> & { url: string }>,
-    {
       sourceId: 'instantsearch_doc',
       getItems({ query, state }) {
         return getAlgoliaResults({
@@ -170,100 +117,10 @@ export const startAutocomplete = (
             snippetAttr: 'description',
             sourceId: 'documentation',
           });
-        },
-      },
-    } as AutocompleteSource<Hit<DocHit>>,
-    {
-      sourceId: 'instantsearch_discourse',
-      getItems({ query, state }) {
-        return getAlgoliaResults({
-          searchClient: SOURCES.find(
-            (source) => source.sourceId === 'community'
-          ).client,
-          queries: [
-            {
-              indexName: SOURCES.find(
-                (source) => source.sourceId === 'community'
-              ).indexName,
-              query,
-              params: {
-                hitsPerPage: 4,
-                distinct: true,
-                filters: state.context.answerUrl
-                  ? `NOT url:${state.context.answerUrl} AND NOT topic.id:36` // topic 36 is "welcome please introduce yourself"
-                  : 'NOT topic.id:36',
-              },
-            },
-          ],
-        });
-      },
-      getItemUrl({ item }) {
-        return `${BASE_URLS.community}${item.url}`;
-      },
-      templates: {
-        header() {
-          return headerTemplate('community');
-        },
-        item({ item, components }) {
-          return instantsearchTemplate({
-            item,
-            components,
-            highlightAttr: ['topic', 'title'],
-            snippetAttr: 'content',
-            sourceId: 'community',
-          });
-        },
-      },
-    } as AutocompleteSource<Hit<DiscourseHit>>,
-    {
-      sourceId: 'instantsearch_academy',
-      getItems({ query, state }) {
-        return getAlgoliaResults({
-          searchClient: SOURCES.find((source) => source.sourceId === 'academy')
-            .client,
-          queries: [
-            {
-              indexName: SOURCES.find((source) => source.sourceId === 'academy')
-                .indexName,
-              query,
-              params: {
-                hitsPerPage: 4,
-                distinct: true,
-                facetFilters: [['type:guide', 'type:resource']],
-                filters: state.context.topHit
-                  ? `NOT id:${state.context.topHit}`
-                  : '',
-              },
-            },
-          ],
-          transformResponse({ hits }) {
-            return hits[0].map((hit) => ({
-              ...hit,
-              url: `/training/${hit.id}`,
-            }));
-          },
-        });
-      },
-      getItemUrl({ item }) {
-        return `${BASE_URLS.academy}${item.url}`;
-      },
-      templates: {
-        header() {
-          return headerTemplate('academy');
-        },
-        item({ item, components }) {
-          return instantsearchTemplate({
-            item,
-            components,
-            highlightAttr: 'name',
-            snippetAttr: item.content ? 'content' : 'description',
-            sourceId: 'academy',
-          });
-        },
-      },
-    } as AutocompleteSource<Hit<AcademyHit> & { url: string }>,
-  ];
-
+        }
+      }
+    } as AutocompleteSource<Hit<DocHit>>
+  ]
   /* eslint-enable @typescript-eslint/consistent-type-assertions */
 
   const { destroy } = autocomplete({
