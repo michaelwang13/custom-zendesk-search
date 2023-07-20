@@ -7200,7 +7200,7 @@ shipjs-lib@0.23.3:
     semver "6.3.0"
     shelljs "0.8.4"
 
-shipjs@0.23.3:
+shipjs@^0.23.3:
   version "0.23.3"
   resolved "https://registry.npmjs.org/shipjs/-/shipjs-0.23.3.tgz"
   integrity sha512-3DZMQ5VVVj2d3bkeF5Tk0U2j/IpZUm/Evk/coRvvRA4cu8bcm9eXh6zcSpJVwMUWloL7SmxK/Y/GbCMb60+qDw==
