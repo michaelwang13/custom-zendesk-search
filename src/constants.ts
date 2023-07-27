@@ -7,9 +7,7 @@ export const REQUEST_INPUT_SELECTOR: string = '#request_subject';
 
 export const AUTOCOMPLETE_PLACEHOLDERS: string[] = [
   'articles',
-  'docs',
-  'community posts',
-  'academy content',
+  'docs'
 ];
 
 export const AUTOCOMPLETE_PLACEHOLDER_TEMPLATE = (
