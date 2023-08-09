@@ -18,7 +18,8 @@ export const SOURCES: Source[] = [
   {
     sourceId: 'documentation',
     indexName: 'docs',
-    client: algoliasearch('REDACTED', 'REDACTED'),
+    // the .toString at the end of the env variables is a hacky way to tell typescript that they will 100% be a string, need this to get a hacky deploy off
+    client: algoliasearch(import.meta.env.VITE_ALGOLIA_APP_ID.toString(), import.meta.env.VITE_ALGOLIA_SEARCH_API_KEY.toString()),
     answerParams: { attributesForPrediction: ['title', 'content'] },
     searchUrl: 'YOUR SEARCH URL HERE',
   }

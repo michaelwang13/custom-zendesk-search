@@ -61,8 +61,9 @@ export const startAutocomplete = (
       answersRef.current = [];
       fn('');
     }
-  }
-  const debouncedAnswers = debounce(500, getAnswers);
+  }    
+
+  // const debouncedAnswers = debounce(500, getAnswers);
 
   const animatedPlaceholder = createAnimatedPlaceholderPlugin({
     placeholders: AUTOCOMPLETE_PLACEHOLDERS,
@@ -124,7 +125,6 @@ export const startAutocomplete = (
   /* eslint-enable @typescript-eslint/consistent-type-assertions */
 
   const { destroy } = autocomplete({
-    debug: process.env.NODE_ENV !== 'production',
     container,
     plugins: [animatedPlaceholder, keyboardOpen],
     getSources() {
@@ -167,13 +167,13 @@ export const startAutocomplete = (
     onStateChange({ prevState, state, refresh, setContext }) {
       if (state.query !== prevState.query) {
         answersRef.current = [];
-        debouncedAnswers(
-          state.query,
-          (url: HitWithAnswer<FederatedHits>['url']) => {
-            setContext({ ...state.context, answerUrl: url });
-            refresh();
-          }
-        );
+        // debouncedAnswers(
+        //   state.query,
+        //   (url: HitWithAnswer<FederatedHits>['url']) => {
+        //     setContext({ ...state.context, answerUrl: url });
+        //     refresh();
+        //   }
+        // );
       }
     },
   });

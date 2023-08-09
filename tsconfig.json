@@ -12,7 +12,9 @@
       "~/*": ["./*"]
     },
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "module": "es2020",
+    "types": ["vite/client", "node"]
   },
   "include": ["./index.js", "./src/**/*"],
   "exclude": ["./src/__tests__/**/*"]
